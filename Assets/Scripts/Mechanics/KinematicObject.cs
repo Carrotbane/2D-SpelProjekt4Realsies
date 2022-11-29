@@ -15,11 +15,6 @@ namespace Platformer.Mechanics
         public float minGroundNormalY = .65f;
 
         /// <summary>
-        /// A custom gravity coefficient applied to this entity.
-        /// </summary>
-        public float gravityModifier = 1f;
-
-        /// <summary>
         /// The current velocity of the entity.
         /// </summary>
         public Vector2 velocity;
@@ -102,20 +97,17 @@ namespace Platformer.Mechanics
         protected virtual void FixedUpdate()
         {
             //if already falling, fall faster than the jump speed, otherwise use normal gravity.
-            if (velocity.y < 0)
-                velocity += gravityModifier * Physics2D.gravity * Time.deltaTime;
-            else
-                velocity += Physics2D.gravity * Time.deltaTime;
+            velocity += Physics2D.gravity * Time.deltaTime;
 
             velocity.x = targetVelocity.x;
 
             IsGrounded = false;
 
-            var deltaPosition = velocity * Time.deltaTime;
+            Vector2 deltaPosition = velocity * Time.deltaTime;
 
-            var moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
+            Vector2 moveAlongGround = new Vector2(groundNormal.y, -groundNormal.x);
 
-            var move = moveAlongGround * deltaPosition.x;
+            Vector2 move = moveAlongGround * deltaPosition.x;
 
             PerformMovement(move, false);
 
@@ -127,7 +119,7 @@ namespace Platformer.Mechanics
 
         void PerformMovement(Vector2 move, bool yMovement)
         {
-            var distance = move.magnitude;
+            float distance = move.magnitude;
 
             if (distance > minMoveDistance)
             {
@@ -169,7 +161,7 @@ namespace Platformer.Mechanics
                     distance = modifiedDistance < distance ? modifiedDistance : distance;
                 }
             }
-            body.position = body.position + move.normalized * distance;
+            body.position += move.normalized * distance;
         }
 
     }

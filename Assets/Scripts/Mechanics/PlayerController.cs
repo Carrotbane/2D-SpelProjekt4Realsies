@@ -82,6 +82,7 @@ namespace Platformer.Mechanics
                     jump = true;
                     stopJump = false;
                     break;
+                
                 case JumpState.Jumping:
                     if (!IsGrounded)
                     {
@@ -89,6 +90,7 @@ namespace Platformer.Mechanics
                         jumpState = JumpState.InFlight;
                     }
                     break;
+                
                 case JumpState.InFlight:
                     if (IsGrounded)
                     {
@@ -96,6 +98,7 @@ namespace Platformer.Mechanics
                         jumpState = JumpState.Landed;
                     }
                     break;
+                
                 case JumpState.Landed:
                     jumpState = JumpState.Grounded;
                     break;
